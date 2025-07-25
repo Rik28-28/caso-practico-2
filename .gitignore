@@ -1,0 +1,28 @@
+# Archivos de estado de Terraform
+*.tfstate
+*.tfstate.backup
+
+# Archivos de plan de Terraform
+*.tfplan
+
+# Archivos de bloqueo
+.terraform.lock.hcl
+
+# Directorio oculto donde terraform guarda plugins y metadatos
+.terraform/
+
+# Archivos de valores sensibles
+terraform.tfvars
+*.tfvars
+
+# Archivos de log u otros temporales
+crash.log
+*.log
+
+# Archivos del sistema operativo o editores
+.DS_Store
+*.swp
+*.swo
+*.bak
+.idea/
+.vscode/
