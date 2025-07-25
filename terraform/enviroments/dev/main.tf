@@ -17,3 +17,9 @@ module "azurerm_resource_group" {
   resource_group_name = var.resource_group_name
   location            = var.location
 }
+
+module "network" {
+  source              = "../../modules/network"
+  resource_group_name = module.azurerm_resource_group.resource_group_name
+  location            = module.azurerm_resource_group.resource_group_location
+}
