@@ -1,0 +1,41 @@
+- name: Eliminar clave obsoleta si existe
+  ansible.builtin.file:
+    path: /etc/apt/trusted.gpg.d/libcontainers.gpg
+    state: absent
+
+- name: Eliminar lista vieja del repositorio si existe
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+    state: absent
+
+- name: Asegurar que las dependencias estén instaladas
+  ansible.builtin.apt:
+    name:
+      - software-properties-common
+      - uidmap
+      - gpg
+      - curl
+    state: present
+
+- name: Descargar y guardar la clave GPG del repositorio de Podman
+  ansible.builtin.shell: |
+    curl -fsSL https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/Release.key \
+    | gpg --dearmor -o /usr/share/keyrings/libcontainers-archive-keyring.gpg
+  args:
+    executable: /bin/bash
+
+- name: Agregar el repositorio oficial de Podman con clave firmada
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/libcontainers.list
+    content: |
+      deb [signed-by=/usr/share/keyrings/libcontainers-archive-keyring.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/ /
+
+- name: Actualizar la caché de apt después de agregar el repositorio
+  ansible.builtin.apt:
+    update_cache: yes
+    force_apt_get: yes
+
+- name: Instalar Podman
+  ansible.builtin.apt:
+    name: podman
+    state: present

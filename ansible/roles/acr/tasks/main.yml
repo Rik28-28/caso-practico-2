@@ -1,0 +1,17 @@
+- name: Iniciar sesión en ACR
+  containers.podman.podman_login:
+    registry: "{{ acr_url }}"
+    username: "{{ acr_username }}"
+    password: "{{ acr_password }}"
+
+- name: Descargar imagen desde Docker Hub
+  containers.podman.podman_image:
+    name: "docker.io/library/nginx:latest"
+
+- name: Etiquetar la imagen para ACR
+  command: podman tag docker.io/library/nginx:latest {{ acr_url }}/webserver:latest
+
+- name: Subir imagen a ACR
+  containers.podman.podman_image:
+    name: "{{ acr_url }}/webserver:latest"
+    push: true

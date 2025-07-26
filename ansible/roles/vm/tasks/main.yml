@@ -1,64 +1,20 @@
-- name: Ensure dependencies are installed
-  apt:
-    name:
-      - software-properties-common
-      - uidmap
-    state: present
-    update_cache: yes
-
-- name: Add Podman official repository
-  shell: |
-    . /etc/os-release
-    echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/ /" > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
-    curl -fsSL https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_${VERSION_ID}/Release.key \
-      -o /etc/apt/trusted.gpg.d/libcontainers.gpg
-  args:
-    executable: /bin/bash
-
-- name: Update apt cache after adding Podman repo
-  apt:
-    update_cache: yes
-
-- name: Install Podman
-  apt:
-    name: podman
-    state: present
-
-- name: Login to ACR
-  containers.podman.podman_login:
-    registry: "{{ acr_url }}"
-    username: "{{ acr_username }}"
-    password: "{{ acr_password }}"
-
-- name: Pull image from Docker Hub
-  containers.podman.podman_image:
-    name: "docker.io/library/nginx:latest"
-
-- name: Tag image for ACR
-  command: podman tag docker.io/library/nginx:latest {{ acr_url }}/webserver:latest
-
-- name: Push image to ACR
-  containers.podman.podman_image:
-    name: "{{ acr_url }}/webserver:latest"
-    push: true
-
-- name: Pull web server image from ACR
+- name: Descargar imagen del servidor web desde ACR
   containers.podman.podman_image:
     name: "{{ acr_url }}/{{ web_image }}"
 
-- name: Ensure host directory for web content exists
+- name: Asegurar que el directorio del host para contenido web exista
   file:
     path: /var/www/html
     state: directory
     mode: '0755'
 
-- name: Add test index.html to host volume
+- name: Agregar archivo index.html de prueba al volumen del host
   copy:
     dest: /var/www/html/index.html
     content: "<html><body><h1>Servidor NGINX con Podman desplegado con Ansible</h1></body></html>"
     mode: '0644'
 
-- name: Run web server container
+- name: Ejecutar contenedor del servidor web
   containers.podman.podman_container:
     name: webserver
     image: "{{ acr_url }}/{{ web_image }}"

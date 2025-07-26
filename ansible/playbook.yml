@@ -1,11 +1,9 @@
-- name: Setup Webserver on Azure VM
-  hosts: vm_cp2
+- name: Configurar Podman, publicar imagen y desplegar servidor web
+  hosts: vm1
   become: true
   vars_files:
-    - roles/vm/vars/main.yml
-    - acr_credentials.yml
-  tasks:
-    - name: Run VM configuration
-      include_role:
-        name: vm
-
+    - acr_credentials.yml  
+  roles:
+    - podman_setup
+    - acr
+    - vm
