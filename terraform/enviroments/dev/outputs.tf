@@ -44,3 +44,24 @@ output "network_interface_name" {
   description = "Nombre de la interfaz de red (NIC) creada"
   value       = module.network.network_interface_name
 }
+
+# Outputs del módulo vm
+output "vm_id" {
+  value       = module.vm.vm_id
+  description = "ID de la máquina virtual creada"
+}
+
+output "vm_name" {
+  value       = module.vm.vm_name
+  description = "Nombre de la VM"
+}
+
+output "vm_private_ip" {
+  value       = module.vm.vm_private_ip
+  description = "IP privada de la VM"
+}
+
+output "vm_public_ip" {
+  value       = module.vm.vm_public_ip
+  description = "IP pública de la VM"
+}

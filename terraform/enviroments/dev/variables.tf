@@ -8,3 +8,13 @@ variable "location" {
   type        = string
   default     = "East US"
 }
+
+variable "public_key_path" {
+  description = "Ruta de la clave pública SSH"
+  type        = string
+}
+
+variable "admin_username" {
+  description = "Nombre de usuario del administrador de la máquina virtual"
+  type        = string
+}
