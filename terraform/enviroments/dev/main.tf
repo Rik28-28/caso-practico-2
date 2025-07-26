@@ -1,16 +1,27 @@
 terraform {
   required_version = ">= 1.3.0"
   required_providers {
+    azapi = {
+      source  = "azure/azapi"
+      version = "~>1.5"
+    }
     azurerm = {
       source  = "hashicorp/azurerm"
       version = "~> 3.80.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~>3.0"
+    }
+    time = {
+      source  = "hashicorp/time"
+      version = "0.9.1"
     }
   }
 }
 
 provider "azurerm" {
   features {}
-  skip_provider_registration = true
 }
 
 module "azurerm_resource_group" {
@@ -48,14 +59,13 @@ module "acr" {
 module "aks" {
   source              = "../../modules/aks"
   aks_name            = "aks-cp2"
-  resource_group_name = module.azurerm_resource_group.resource_group_name
-  location            = var.location
+  resource_group_name = var.resource_group_name_aks
+  location            = var.location_aks
   dns_prefix          = "dns-cp2"
-  acr_id              = module.acr.acr_id
   node_count          = 1
   vm_size             = "Standard_B1s"
   tags = {
-    namespace = "dev"
+    enviroment = "casopractico2"
   }
 }
 

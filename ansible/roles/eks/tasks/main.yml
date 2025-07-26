@@ -1,0 +1,49 @@
+- name: Crear deployment de la aplicación web
+  kubernetes.core.k8s:
+    kubeconfig: "{{ kubeconfig_path }}"
+    state: present
+    definition:
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: web-redis-app
+        namespace: caso-practico-2
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app: web-redis-app
+        template:
+          metadata:
+            labels:
+              app: web-redis-app
+          spec:
+            containers:
+              - name: web
+                image: myacr.azurecr.io/web-redis-app:latest
+                ports:
+                  - containerPort: 80
+                env:
+                  - name: REDIS_HOST
+                    value: redis
+                  - name: REDIS_PORT
+                    value: "6379"
+
+- name: Crear servicio LoadBalancer para exponer la app
+  kubernetes.core.k8s:
+    kubeconfig: "{{ kubeconfig_path }}"
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: web-redis-service
+        namespace: caso-practico-2
+      spec:
+        selector:
+          app: web-redis-app
+        type: LoadBalancer
+        ports:
+          - protocol: TCP
+            port: 80
+            targetPort: 80

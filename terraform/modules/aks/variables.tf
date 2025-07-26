@@ -18,10 +18,6 @@ variable "dns_prefix" {
   description = "Prefijo DNS para el clúster"
 }
 
-variable "acr_id" {
-  type        = string
-  description = "ID del ACR vinculado"
-}
 
 variable "node_count" {
   type        = number

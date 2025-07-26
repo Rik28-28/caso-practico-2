@@ -1,0 +1,20 @@
+- name: Construir y subir imagen a ACR, vincular con AKS y desplegar
+  hosts: localhost
+  vars:
+    kubeconfig_path: "/Users/robert/.kube/config"
+    resource_group: "rg-meet-kit"
+    cluster_name: "cluster-needed-dragon"
+  vars_files:
+    - acr_credentials.yml
+  tasks:
+    - name: Construir y subir imagen para AKS
+      include_role:
+        name: acr_eks
+
+    - name: Desplegar Redis en EKS
+      include_role:
+        name: redis_deploy
+
+    - name: Desplegar Web App en EKS
+      include_role:
+        name: eks

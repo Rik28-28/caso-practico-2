@@ -1,4 +1,4 @@
-- name: Configurar Podman, publicar imagen y desplegar servidor web
+- name: Configurar Podman, publicar imagen y desplegar servidor web en VM
   hosts: vm1
   become: true
   vars_files:

@@ -1,0 +1,17 @@
+- name: Iniciar sesión en Azure ACR usando Azure CLI
+  shell: >
+    az acr login --name {{ acr_name }}
+  register: login_result
+
+- name: Descargar imagen base desde Docker Hub
+  shell: >
+    docker pull nginx:latest
+  register: pull_result
+
+- name: Etiquetar imagen con destino en ACR
+  shell: >
+    docker tag nginx:latest {{ acr_url }}/web-redis-app:latest
+
+- name: Subir imagen a ACR
+  shell: >
+    docker push {{ acr_url }}/web-redis-app:latest

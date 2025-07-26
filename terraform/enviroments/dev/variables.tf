@@ -18,3 +18,14 @@ variable "admin_username" {
   description = "Nombre de usuario del administrador de la máquina virtual"
   type        = string
 }
+
+
+variable "resource_group_name_aks" {
+  description = "Nombre del resource group para AKS"
+  type        = string
+}
+variable "location_aks" {
+  description = "Ubicación del resource group para AKS"
+  type        = string
+  default     = "eastus2"
+}

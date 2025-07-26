@@ -1,0 +1,45 @@
+- name: Crear el namespace caso-practico-2 si no existe
+  kubernetes.core.k8s:
+    kubeconfig: "{{ kubeconfig_path }}"
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: caso-practico-2
+
+- name: Crear el servicio de Redis
+  kubernetes.core.k8s:
+    kubeconfig: "{{ kubeconfig_path }}"
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: redis
+        namespace: caso-practico-2
+      spec:
+        selector:
+          app: redis
+        ports:
+          - port: 6379
+        clusterIP: None
+
+- name: Crear el pod de Redis
+  kubernetes.core.k8s:
+    kubeconfig: "{{ kubeconfig_path }}"
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        name: redis
+        namespace: caso-practico-2
+        labels:
+          app: redis
+      spec:
+        containers:
+          - name: redis
+            image: redis:7.2
+            ports:
+              - containerPort: 6379
