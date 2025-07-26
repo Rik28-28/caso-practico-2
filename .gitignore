@@ -26,3 +26,7 @@ crash.log
 *.bak
 .idea/
 .vscode/
+
+# Ansible
+ansible/acr_credentials.yml
+

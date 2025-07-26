@@ -43,13 +43,13 @@ variable "image_publisher" {
 variable "image_offer" {
   description = "Oferta de la imagen"
   type        = string
-  default     = "UbuntuServer"
+  default     = "0001-com-ubuntu-server-focal"
 }
 
 variable "image_sku" {
   description = "SKU de la imagen"
   type        = string
-  default     = "16.04-LTS"
+  default     = "20_04-lts"
 }
 
 variable "image_version" {

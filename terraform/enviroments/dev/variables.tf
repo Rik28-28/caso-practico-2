@@ -6,7 +6,7 @@ variable "resource_group_name" {
 variable "location" {
   description = "Ubicación del resource group"
   type        = string
-  default     = "East US"
+  default     = "eastus2"
 }
 
 variable "public_key_path" {

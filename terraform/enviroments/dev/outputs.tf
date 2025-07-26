@@ -76,7 +76,7 @@ output "acr_login_server" {
 
 
 # Outputs del módulo aks
-output "aks_name" {
-  value = module.aks.aks_name
-}
+#output "aks_name" {
+#  value = module.aks.aks_name
+#}
 
