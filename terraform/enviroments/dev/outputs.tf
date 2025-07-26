@@ -65,3 +65,9 @@ output "vm_public_ip" {
   value       = module.vm.vm_public_ip
   description = "IP pública de la VM"
 }
+
+# Outputs del módulo acr
+output "acr_login_server" {
+  value = module.acr.acr_login_server
+}
+

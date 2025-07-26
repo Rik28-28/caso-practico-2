@@ -34,3 +34,12 @@ module "vm" {
   public_key_path     = var.public_key_path
   network_interface_id = module.network.network_interface_id
 }
+
+module "acr" {
+  source              = "../../modules/acr"
+  acr_name            = "acrcp2"    
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  sku                 = "Basic"
+  admin_enabled       = true
+}
