@@ -14,6 +14,7 @@ output "resource_group_id" {
   value       = module.azurerm_resource_group.resource_group_id
 }
 
+
 # Outputs del módulo network
 output "virtual_network_id" {
   description = "ID de la red virtual principal (VNet)"
@@ -45,6 +46,7 @@ output "network_interface_name" {
   value       = module.network.network_interface_name
 }
 
+
 # Outputs del módulo vm
 output "vm_id" {
   value       = module.vm.vm_id
@@ -66,8 +68,15 @@ output "vm_public_ip" {
   description = "IP pública de la VM"
 }
 
+
 # Outputs del módulo acr
 output "acr_login_server" {
   value = module.acr.acr_login_server
+}
+
+
+# Outputs del módulo aks
+output "aks_name" {
+  value = module.aks.aks_name
 }
 
